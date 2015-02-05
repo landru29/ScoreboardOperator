@@ -1,45 +1,42 @@
 /*global angular */
-angular.module('Scoreboard').controller('BackofficeCtrl', ['$scope', 'Chronometer', 'Trigger',
-    function ($scope, Chronometer, Trigger) {
+angular.module('Scoreboard').controller('BackofficeCtrl', ['$scope', 'Board', 'Chronometer', 'Trigger', 'Storage',
+    function ($scope, Board, Chronometer, Trigger, Storage) {
         "use strict";
 
-        $scope.chronometers = [];
+        $scope.board = new Board();
         $scope.trig = new Trigger();
-        Chronometer.prototype.setAvailableTriggers($scope.chronometers, 'chronometers');
-
-        $scope.chronometerSortOptions = {
-            containment: '#sortable-container',
-            dragStart: function (event) {
-                event.source.itemScope.chronometer.$moving = true;
-            },
-            dragEnd: function (event) {
-                delete(event.source.itemScope.chronometer.$moving);
-            }
-        };
 
         $scope.pushChronometer = function () {
-            $scope.chronometers.push(new Chronometer());
+            $scope.board.chronometers.push(new Chronometer());
         };
 
         $scope.deleteChronometer = function (chronometer) {
-            $scope.chronometers.splice($scope.chronometers.indexOf(chronometer), 1);
+            $scope.board.chronometers.splice($scope.chronometers.indexOf(chronometer), 1);
         };
-
-        $scope.select = function() {
-            return [
-            {
-                caption: 'hop1',
-                value: 'hip1'
-            },
-            {
-                caption: 'hop2',
-                value: 'hip2'
-            },
-            {
-                caption: 'hop3',
-                value: 'hip3'
-            },
-        ];
-        };
+        
+        $scope.$on('menu-trigger', function (event, args) {
+            switch (args.action) {
+            case 'trash':
+                
+                break;
+            case 'clone':
+                
+                break;
+            case 'new':
+                
+                break;
+            case 'open':
+                $scope.board = new Board(Storage.loadData());
+                break;
+            case 'save':
+                Storage.saveData($scope.board);
+                break;
+            case 'export':
+                
+                break;
+            default:
+                break;
+            }
+        });
 
 }]);

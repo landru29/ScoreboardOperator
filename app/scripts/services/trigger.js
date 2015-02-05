@@ -1,5 +1,5 @@
 /*global angular */
-angular.module('Scoreboard').provider('Trigger', [function () {
+angular.module('Scoreboard').provider('Trigger', ['CallbackProvider', function (CallbackProvider) {
 
     var Trigger = function (data) {
         this.name = null;
@@ -7,7 +7,17 @@ angular.module('Scoreboard').provider('Trigger', [function () {
         this.triggers = [];
         if (Object.prototype.toString.call(data) === '[object Object]') {
             for (var i in data) {
-                this[i] = data[i];
+                switch (i) {
+                    case 'triggers':
+                        for(var j in data.triggers) {
+                            this.triggers.push(new CallbackProvider.Callback(data.triggers[j].event, data.triggers[j].callback));
+                        }
+                        break;
+                    default:
+                        this[i] = data[i];
+                        break;
+                }
+                
             }
         }
     };

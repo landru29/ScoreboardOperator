@@ -1,9 +1,9 @@
 <div class="section">
     <div class="subsection">{{'Chronometers' | translate}}</div>
     <div class="chronometer-list">
-        <ul class="chronometer-list" as-sortable="chronometerSortOptions" ng-model="chronometers">
-            <li ng-repeat="chronometer in chronometers" as-sortable-item ng-class="{sorting: chronometer['$moving']}">
-                <div as-sortable-item-handle>
+        <ul class="chronometer-list" >
+            <li ng-repeat="chronometer in board.chronometers">
+                <div>
                     <span chronometer="chronometer" delete="deleteChronometer($chronometer)"></span>
                 </div>
             </li>
